@@ -45,6 +45,7 @@ project will only be approved if the following essential feature requirements ar
 **Essential Views & Features:**
 
 **Main view**
+
 ● Returns ALL movies to the user (each movie item with an image, title, and description)
 
 ● Filtering the list of movies with a “search” feature
@@ -56,6 +57,7 @@ project will only be approved if the following essential feature requirements ar
 ● Ability to navigate to Profile view
 
 **Single Movie view**
+
 ● Returns data (description, genre, director, image) about a single movie to the user
 
 ● Allows users to add a movie to their list of favorites
@@ -78,18 +80,23 @@ Profile view
 ● Allows existing users to deregister
 
 **Optional Views & Features:**
+
 Actors view
+
 ● Allows users to view information about different actors
 
 Genre view
+
 ● Returns data about a genre, with a name and description
 ● Displays example movies
 
 Director view
+
 ● Returns data about a director (name, bio, birth year, death year)
 ● Displays example movies from the director
 
 Single Movie view (optional features)
+
 ● Allow users to see which actors star in which movies
 ● Allow users to view more information about different movies, such as the release date and the movie rating
 ● Allow users to access different movie information, such as genre description and director bio, without leaving the view (e.g., tooltips)
@@ -97,18 +104,28 @@ Single Movie view (optional features)
 ● Display a list of related or similar movies
 
 Main view (optional features)
+
 ● Allow users to sort movies based on different criteria
 Profile, Single Movie, and Main views (optional features)
 ● Allow users to create a “To Watch” list in addition to their “Favorite Movies” list
 
 **Technical Requirements**
+
 ● The application must be a single-page application (SPA)
+
 ● The application must use state routing to navigate between views and share URLs
+
 ● The application must give users the option to filter movies using a “search” feature
+
 ● The application must use Parcel as its build tool
+
 ● The application must be written using the React library and in ES2015+
+
 ● The application must use Bootstrap as a UI library for styling and responsiveness
+
 ● The application must contain function components
+
 ● The application must be hosted online
+
 ● The application may use React Redux for state management of at least one feature (i.e.,
 filtering movies)
