@@ -1,7 +1,9 @@
 **myFlix React App**
+
 This is a React client-side web application for myFlix, interacting with the existing server-side API and database.
 
 **Context**
+
 Client-side development plays a crucial role in modern web applications. Built with React, this interface allows users to interact with the server-side and access movie information on myFlix.
 
 **Project Goals**
@@ -15,15 +17,16 @@ Client-side development plays a crucial role in modern web applications. Built w
 **The 5 Ws**
 1. Who: The users of your myFlix app—movie enthusiasts who enjoy reading information about
 different movies.
-2. What: A single-page, responsive app with routing, rich interactions, several interface views,
-and a polished user experience. The client-side developed in this Achievement will support
-the existing server-side (from Achievement 2) by facilitating user requests and rendering the
-response from the server-side via a number of different interface views.
-3. When: myFlix users will be able to use it whenever they want to read and save information
+
+2. What: A single-page, responsive app with routing, rich interactions, several interface views, and a polished user experience. The client-side developed in this Achievement will support the existing server-side (from Achievement 2) by facilitating user requests and rendering the response from the server-side via a number of different interface views.
+
+4. When: myFlix users will be able to use it whenever they want to read and save information
 about different movies.
-4. Where: The app will be hosted online. The myFlix app itself is responsive and can therefore be
+
+5. Where: The app will be hosted online. The myFlix app itself is responsive and can therefore be
 used anywhere and on any device, giving all users the same experience.
-5. Why: Movie enthusiasts like to be able to access information about different movies,
+
+6. Why: Movie enthusiasts like to be able to access information about different movies,
 whenever they want to. Having the ability to save a list of their favorite movies will ensure
 users always have access to the films they want to watch or recommend to their peers.
 
@@ -60,7 +63,8 @@ Profile view
 ● Displays favorite movies
 ● Allows users to remove a movie from their list of favorites
 ● Allows existing users to deregister
-Optional Views & Features:
+
+**Optional Views & Features:**
 Actors view
 ● Allows users to view information about different actors
 Genre view
