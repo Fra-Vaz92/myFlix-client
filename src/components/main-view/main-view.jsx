@@ -9,20 +9,25 @@ export const MainView = () => {
 
   useEffect(() => {
     fetch("https://movie-app-47zy.onrender.com/movies")
-    .then((response) => response.json())
+    .then((response) => response.json());
+  })
     .then((data) => {
       const moviesFromApi = data.map((movie) => {
        return{ _id: movie._id,
         Title: movie.Title,
         Description: movie.Description,
         Genre: movie.Genre,
+        Actors:movie.actor,
         Director: movie.Director,
         ImagePath: movie.ImagePath,
         Featured: movie.Featured,
       };
     });
     setMovies(moviesFromApi);
-});
+})
+.catch((error) => {
+  console.error("Error fetching movies:", error);
+  setError(error.message);
   },  []);
 
   if (selectedMovie) {
