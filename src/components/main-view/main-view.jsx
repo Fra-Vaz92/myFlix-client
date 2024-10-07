@@ -1,12 +1,23 @@
 import { useState, useEffect } from "react";
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+<<<<<<< Updated upstream
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItme("user"));
   const storedToken = localStorage.getItem("token");
+=======
+import { LoginView } from "../login-view/LoginView";
+import { SignupView } from "../signup-view/SignupView";
+
+export const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
+  const [user, setUser] = useState(storedUser || null);
+  const [token, setToken] = useState(storedToken || null);
+>>>>>>> Stashed changes
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [token, setToken] = useState(storedToken? storedToken : null);
@@ -49,6 +60,24 @@ export const MainView = () => {
     </>
   );
   }
+
+  useEffect(() => {
+    fetch("https://movie-app-47zy.onrender.com/movies")
+    .then((response) => response.json())
+    .then((data) => {
+      const moviesFromApi = data.map((movie) => ({
+        _id: movie._id,
+        Title: movie.Title,
+        Description: movie.Description,
+        Genre: movie.Genre,
+        Director: movie.Director,
+        ImagePath: movie.ImagePath,
+        Featured: movie.Featured,
+      }));
+      setMovies(moviesFromApi);
+    })
+    .catch((error) => console.error('Error fetching movies:', error));
+}, [token]);
 
   if (selectedMovie) {
     return (
