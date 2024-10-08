@@ -1,9 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 export const MovieView = ({ movie, onBackClick }) => {
     return (
         <div>
