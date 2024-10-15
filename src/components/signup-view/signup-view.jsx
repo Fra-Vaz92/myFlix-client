@@ -7,6 +7,7 @@ export const SignupView = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,17 +21,22 @@ export const SignupView = () => {
 
     fetch("https://movie-app-47zy.onrender.com/users", {
         method: "POST",
-        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+
+      })    .then(response => {
+        if (!response.ok) {
+          setErrorMessage('Signup failed');
+          throw new Error('Signup failed');
         }
-      }).then((response) => {
-        if (response.ok) {
-          alert("Signup successful");
-          window.location.reload();
-        } else {
-          alert("Signup failed");
-        }
+        alert('Signup successful');
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setErrorMessage('Something went wrong during signup');
       });
     };
   

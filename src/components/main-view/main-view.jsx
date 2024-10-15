@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form"; 
 
 export const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItme("user"));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
@@ -44,7 +44,7 @@ export const MainView = () => {
     return (
       <Row className="justify-content-md-center">
         <Col md={12} className="text-center my-3">
-        <h1>MyFlix DB</h1>
+        <h1>MyFlix App</h1>
         </Col>
         <Col md={5}></Col>
    
