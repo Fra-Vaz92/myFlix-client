@@ -1,21 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-<<<<<<< Updated upstream
-
-export const MovieCard = ({ movie, onMovieClick }) => {
-    return (
-      <div
-      onClick={() => onMovieClick(movie)}
-      className="movie-card" 
-    >
-      <img
-        src={movie.ImagePath}
-        alt={movie.Title}
-        className="w-100" 
-      />
-      <h3>{movie.Title}</h3>
-    </div>
-=======
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -46,7 +30,6 @@ export const MovieCard = ({movie, isFavorite, onFavoriteToggle, username }) => {
         </Button>
       </Card.Body>
     </Card>
->>>>>>> Stashed changes
   );
 };
 
