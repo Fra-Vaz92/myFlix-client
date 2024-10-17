@@ -1,7 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+<<<<<<< Updated upstream
 export const MovieView = ({ movie, onBackClick }) => {
     return (
+=======
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import "./movie-view.scss";
+
+export const MovieView = ({movie}) => {
+  const{movie_id} = useParams();
+  const movie = movie.find((b) => b.id === movie_id);
+    
+  return (
+>>>>>>> Stashed changes
         <div>
         <div>
             <img src={movie.image} />
@@ -30,7 +42,13 @@ export const MovieView = ({ movie, onBackClick }) => {
             <span>Release year: </span>
             <span>{movie.releaseYear}</span>
         </div>
+<<<<<<< Updated upstream
         <button onClick={onBackClick}>Back</button>
+=======
+        <Link to={`/`}>
+        <button onClick={onBackClick} className="back-button" style={{ cursor: "pointer" }}>Back</button>
+      </Link>
+>>>>>>> Stashed changes
     </div>
     );
   };

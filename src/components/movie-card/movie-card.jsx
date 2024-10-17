@@ -1,5 +1,6 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
+<<<<<<< Updated upstream
 
 export const MovieCard = ({ movie, onMovieClick }) => {
     return (
@@ -14,6 +15,38 @@ export const MovieCard = ({ movie, onMovieClick }) => {
       />
       <h3>{movie.Title}</h3>
     </div>
+=======
+import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+
+export const MovieCard = ({movie, isFavorite, onFavoriteToggle, username }) => {
+
+  const [isFav, setIsFav] = useState(isFavorite);
+
+  const handleFavoriteClick = () => {
+    setIsFav(prev => !prev);
+    onFavoriteToggle(movie._id, !isFav);
+  };
+
+  return (
+      <Card className="h-100">
+        <Card.Img variant="top" src={movie.image} />
+      <Card.Body>
+        <Card.Title>{movie.Title}</Card.Title>
+        <Card.Text>{movie.Description}</Card.Text>
+        <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+          <Button variant="link">Open</Button>
+        </Link>
+        <Button 
+          variant={isFav ? "danger" : "secondary"} 
+          onClick={handleFavoriteClick}
+        >
+          {isFav ? "Unfavorite" : "Favorite"}
+        </Button>
+      </Card.Body>
+    </Card>
+>>>>>>> Stashed changes
   );
 };
 
@@ -34,5 +67,8 @@ MovieCard.propTypes = {
     ImagePath: PropTypes.string.isRequired,
     Featured: PropTypes.bool.isRequired
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
+  onMovieClick: PropTypes.func.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
+  onFavoriteToggle: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
 };
