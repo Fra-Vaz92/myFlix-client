@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./movie-view.scss";
+
 export const MovieView = ({ movie, onBackClick }) => {
     return (
         <div>
@@ -30,7 +32,7 @@ export const MovieView = ({ movie, onBackClick }) => {
             <span>Release year: </span>
             <span>{movie.releaseYear}</span>
         </div>
-        <button onClick={onBackClick}>Back</button>
+        <button onClick={onBackClick} className="back-button" style={{ cursor: "pointer" }}>Back</button>
     </div>
     );
   };
