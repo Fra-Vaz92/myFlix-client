@@ -17,3 +17,5 @@ UserInfo.prototype = {
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
 };
+
+export default UserInfo;

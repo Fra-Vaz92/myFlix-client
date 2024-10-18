@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import UserInfo from "./user-info";
-import DeleteAccountButton from "./DeleteAccountButton";
-import FavoriteMovies from "./favorite-movies";
-import UpdateUser from "./update-user";
+import DeleteAccountButton from "./delete-account-button";
+import FavoriteMovies from "./favorite-movie";
+import ProfileUpdate from "./profile-update";
 import { Card, Container, Row, Col } from "react-bootstrap";
+
+import axios from "axios";
+
 
 export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle, setFavoriteMovies}) => {
 
@@ -124,7 +127,7 @@ export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle,
             </Card>
           </Col>
           <Col xs={12} sm={8}>
-            <UpdateUser
+            <ProfileUpdate
               user={user}
               handleChange={handleChange}
               handleSaveClick={handleSaveClick}

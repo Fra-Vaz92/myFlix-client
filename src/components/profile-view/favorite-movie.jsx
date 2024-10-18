@@ -10,7 +10,7 @@ const removeFav = (id) => {
   let token = localStorage.getItem('token');
   let url = `https://movie-app-47zy.onrender.com/users/${localStorage.getItem('user')}/movies/${id}`;
   axios.delete (url, {
-    headers: {Authorization: `Bearer ${tooken}` },
+    headers: {Authorization: `Bearer ${token}` },
   })
 }
 
@@ -51,3 +51,5 @@ return (
 FavoriteMovies.prototype = {
   FavoriteMovies: PropTypes.array.isRequired
 };
+
+export default FavoriteMovie;
