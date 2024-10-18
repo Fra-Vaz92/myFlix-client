@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+
 export const LoginView = ({ onLoggedIn }) => {
-    const [username, setUsername] = useState("");
+    const [username, setusername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
     const data = {
-      access: username,
+      username: username,
       secret: password
     };
    
@@ -32,28 +35,33 @@ export const LoginView = ({ onLoggedIn }) => {
     .catch((e) => {
       alert("Something went wrong");
     });
+  };
  
     return (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Username:
-            <input type="text" 
+        <Form onSubmit={handleSubmit}>
+           <Form.Group controlId="formUsername">
+          <Form.Label>Username:</Form.Label>
+          <Form.Control
+            type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            />
-          </label>
-          <label>
-            Password:
-            <input type="password" 
+            onChange={(e) => setusername(e.target.value)}
+            required
+            minLength="3" 
+          />
+        </Form.Group>
+  
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password:</Form.Label>
+          <Form.Control
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            />
-          </label>
-          <button type="submit">
-            Submit
-          </button>
-        </form>
-      );
-    }
-    };
+          />
+        </Form.Group>
+        <Button variant="primary" className="mt-3" type="submit">
+          Submit
+        </Button>
+      </Form>
+    );
+  };

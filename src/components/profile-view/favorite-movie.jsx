@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import './profile-view.scss';
 
 
+
 function FavoriteMovie ({favoriteMovieList}) {
 const removeFav = (id) => {
   let token = localStorage.getItem('token');
@@ -48,7 +49,7 @@ return (
 )
 }
 
-FavoriteMovies.prototype = {
+FavoriteMovie.prototype = {
   FavoriteMovies: PropTypes.array.isRequired
 };
 

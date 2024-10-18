@@ -12,7 +12,7 @@ import Form from "react-bootstrap/Form";
 
 
 export const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItme("user"));
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
