@@ -14,10 +14,10 @@ export const LoginView = ({ onLoggedIn }) => {
       secret: password
     };
    
-    fetch("https://movie-app-47zy.onrender.com/users/register?username="+username+"&password="+password, {
+    fetch("https://movie-app-47zy.onrender.com/users/register", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         body: JSON.stringify(data)
     })
@@ -60,7 +60,7 @@ export const LoginView = ({ onLoggedIn }) => {
           />
         </Form.Group>
         <Button variant="primary" className="mt-3" type="submit">
-          Submit
+          Log In
         </Button>
       </Form>
     );

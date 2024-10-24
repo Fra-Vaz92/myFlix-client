@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
@@ -5,8 +6,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Row, Col, Button } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 
@@ -42,11 +42,21 @@ export const MainView = () => {
 })
   },  [token]);
 
-  const handleLoggedOut = () => {
+  const onLoggedIn = (user, token) => {
+    setUser(user);
+    setToken(token);
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+}
+const onLoggedOut = () => {
     setUser(null);
     setToken(null);
     localStorage.clear();
-  };
+}
+const updatedUser = user => {
+    setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
+}
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(filter.toLowerCase())
@@ -55,11 +65,11 @@ export const MainView = () => {
   
   return (
     <BrowserRouter>
-      <NavigationBar user={user} onLoggedOut={handleLoggedOut} />
+      <NavigationBar user={user} onLoggedOut={onLoggedOut} />
       <Row className="justify-content-md-center">
         <Routes>
           <Route
-            path="/users/register"
+            path="/signup"
             element={
               user ? (
                 <Navigate to="/" />
@@ -78,19 +88,14 @@ export const MainView = () => {
               ) : (
                 <Col md={5}>
                   <LoginView
-                    onLoggedIn={(user, token) => {
-                      setUser(user);
-                      setToken(token);
-                      localStorage.setItem("user", JSON.stringify(user));
-                      localStorage.setItem("token", token);
-                    }}
+                    onLoggedIn={onLoggedIn}
                   />
                 </Col>
               )
             }
           />
           <Route
-            path="/profile"
+            path="/users/:Username"
             element={
               user ? (
                 <Col md={8}>
@@ -98,11 +103,12 @@ export const MainView = () => {
                     user={user}
                     token={token}
                     movies={movies}
-                    setUser={setUser}
+                    updatedUser={updatedUser}
+                    onLoggedOut={onLoggedOut}
                   />
                 </Col>
               ) : (
-                <Navigate to="/login" />
+                <Navigate to="/login" replace />
               )
             }
           />
