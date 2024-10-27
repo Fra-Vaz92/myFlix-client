@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Button, Form } from 'react-bootstrap';
 
 export const LoginView = ({ onLoggedIn }) => {
-    const [username, setusername] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (event) => {
@@ -11,10 +11,10 @@ export const LoginView = ({ onLoggedIn }) => {
 
     const data = {
       username: username,
-      secret: password
+      Password: password
     };
    
-    fetch("https://movie-app-47zy.onrender.com/users/register", {
+    fetch("https://movie-app-47zy.onrender.com/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const LoginView = ({ onLoggedIn }) => {
           <Form.Control
             type="text"
             value={username}
-            onChange={(e) => setusername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             required
             minLength="3" 
           />
@@ -65,3 +65,9 @@ export const LoginView = ({ onLoggedIn }) => {
       </Form>
     );
   };
+
+  LoginView.propTypes = {
+    onLoggedIn: PropTypes.func.isRequired,
+  };
+  
+  export default LoginView;
