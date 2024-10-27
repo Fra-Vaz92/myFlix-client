@@ -2,6 +2,22 @@
 
 This is a React client-side web application for myFlix, interacting with the existing server-side API and database.
 
+**Features**
+
+User authentication (Login, Signup)
+Browse and search through a movie list
+View information about a selected movie
+Add or remove movies from your favorites
+Manage your user profile
+
+**Tech Stack**
+
+Frontend: React.js, React Router
+State Management: Redux, Redux Toolkit
+Styling: Bootstrap, SCSS
+Backend: MyFlix API
+Routing: React Router DOM
+
 **Context**
 
 Client-side development plays a crucial role in modern web applications. Built with React, this interface allows users to interact with the server-side and access movie information on myFlix.
@@ -129,3 +145,11 @@ Profile, Single Movie, and Main views (optional features)
 
 ● The application may use React Redux for state management of at least one feature (i.e.,
 filtering movies)
+
+**Folder Structure Breakdown**
+
+● components/: Contains all reusable UI components.
+● main-view/: The main view of the app, routing between different views like the movie list and profile view.
+● login-view/, signup-view/: Handles user authentication.
+● movies-list/, movies-filter/: Displays and filters movies.
+● profile-view/: Allows users to manage their profiles and favorite movies.
