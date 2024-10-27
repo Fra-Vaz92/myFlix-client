@@ -2,6 +2,8 @@
 
 This is a React client-side web application for myFlix, interacting with the existing server-side API and database.
 
+You can find the app here: https://app-for-movie.netlify.app/
+
 **Features**
 
 User authentication (Login, Signup)
