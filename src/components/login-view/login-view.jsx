@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useState } from "react";
 import { Button, Form } from 'react-bootstrap';
 
@@ -24,8 +23,8 @@ export const LoginView = ({ onLoggedIn }) => {
     .then((response) => response.json())
     .then((data) => {
       console.log("Login response: ", data);
-      if (data.user) {
-        localStorage.setItem("user", JSON.stringify(data.user));
+      if (data.users) {
+        localStorage.setItem("user", JSON.stringify(data.users));
         localStorage.setItem("token", data.token);
         onLoggedIn(data.user, data.token);
       } else {
@@ -65,9 +64,3 @@ export const LoginView = ({ onLoggedIn }) => {
       </Form>
     );
   };
-
-  LoginView.propTypes = {
-    onLoggedIn: PropTypes.func.isRequired,
-  };
-  
-  export default LoginView;
