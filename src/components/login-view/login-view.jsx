@@ -1,6 +1,6 @@
-import {useState} from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import { Button, Form } from 'react-bootstrap';
 
 export const LoginView = ({ onLoggedIn }) => {
     const [username, setUsername] = useState("");
@@ -10,14 +10,14 @@ export const LoginView = ({ onLoggedIn }) => {
         event.preventDefault();
 
     const data = {
-      access: username,
-      secret: password
+      username: username,
+      Password: password
     };
    
-    fetch("https://movie-app-47zy.onrender.com/users/register?username="+username+"&password="+password, {
+    fetch("https://movie-app-47zy.onrender.com/login", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         body: JSON.stringify(data)
     })
@@ -39,29 +39,35 @@ export const LoginView = ({ onLoggedIn }) => {
  
     return (
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formUsername">
+           <Form.Group controlId="formUsername">
           <Form.Label>Username:</Form.Label>
-        <Form.Control
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          minLength="3" 
-        />
+          <Form.Control
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            minLength="3" 
+          />
         </Form.Group>
-
-          <Form.Group controlId="formPassword">
-        <Form.Label>Password:</Form.Label>
-        <Form.Control
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+  
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password:</Form.Label>
+          <Form.Control
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Button variant="primary" className="mt-3" type="submit">
+          Log In
+        </Button>
+      </Form>
     );
-    };
+  };
+
+  LoginView.propTypes = {
+    onLoggedIn: PropTypes.func.isRequired,
+  };
+  
+  export default LoginView;
