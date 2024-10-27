@@ -1,0 +1,33 @@
+.card-img-top {
+    width: 200px; /* Set the desired width */
+    height: 300px; /* Set the desired height */
+    object-fit: cover; /* Ensures the image is cropped properly */
+    border-radius: 10px;
+  }
+  .card-body {
+    height: auto;
+  }
+  
+  .fontt {
+    height: 40px;
+    padding: 0%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-footer {
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+    align-content: center;
+  }
+  .spa {
+    color: rgb(2, 59, 83);
+  }
+  .justify-content-md-center row {
+    margin-top: 20px;
+  }
+  .justify-content-center mb-5 row {
+    margin-top: 50px;
+  }

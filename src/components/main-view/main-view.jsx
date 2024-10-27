@@ -9,6 +9,7 @@ import { ProfileView } from "../profile-view/profile-view";
 import { Row, Col, Button } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
+import "./main-view.scss";
 
 
 export const MainView = () => {
@@ -17,6 +18,8 @@ export const MainView = () => {
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
   const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
 
   useEffect(() => {
     if (!token)
@@ -58,8 +61,13 @@ const updatedUser = user => {
     localStorage.setItem('user', JSON.stringify(user));
 }
 
+const handleSearch = (e) => setSearch(e.target.value); // Update search term
+
+  const handleGenreChange = (e) => setSelectedGenre(e.target.value); // Update selected genre
+
   const filteredMovies = movies.filter((movie) =>
-    movie.title.toLowerCase().includes(filter.toLowerCase())
+    movie.Title.toLowerCase().includes(filter.toLowerCase()) &&
+  (!selectedGenre || movie.Genre.Name === selectedGenre)
   );
 
   
@@ -132,7 +140,7 @@ const updatedUser = user => {
           <Route
             path="/"
             element={
-              user ? (
+              !user ? (
                 <>
                   {movies.length === 0 ? (
                     <p>Loading...</p>
@@ -143,12 +151,27 @@ const updatedUser = user => {
     <Form.Control
       type="text"
       placeholder="Search..."
-      value={filter}
-      onChange={(e) => setFilter(e.target.value)}
+      value={search}
+      onChange={handleSearch}
       className="mb-4"
       style={{ width: '100%', marginTop: '20px' }} 
     />
   </Col>
+  <Col md={6}>
+                        <Form.Select
+                          value={selectedGenre}
+                          onChange={handleGenreChange}
+                        >
+                          <option value="">All genres</option>
+                          {[...new Set(movies.map((m) => m.Genre.Name))]
+                            .sort()
+                            .map((genre) => (
+                              <option key={genre} value={genre}>
+                                {genre}
+                              </option>
+                            ))}
+                        </Form.Select>
+                      </Col>
 </Row>
 
 {filteredMovies.length === 0 ? (
