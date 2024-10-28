@@ -140,7 +140,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/"
             element={
-              !user ? (
+              user ? (
                 <>
                   {movies.length === 0 ? (
                     <p>Loading...</p>
