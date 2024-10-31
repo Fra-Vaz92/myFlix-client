@@ -17,7 +17,7 @@ export const MovieView = ({movies}) => {
 }, [movieId, user]);
 
 const addtoFavorite = () => {
-    fetch(`https://moviesdb-6abb3284c2fb.herokuapp.com/users/${user.Username}/${movieId}`,
+    fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/${movieId}`,
     {
         method: "POST",
         headers: { 
@@ -39,7 +39,7 @@ const addtoFavorite = () => {
     });       
 };
 const removefromFavorite = () => {
-    fetch(`https://moviesdb-6abb3284c2fb.herokuapp.com/users/${user.Username}/${movieId}`,
+    fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/${movieId}`,
     {
         method: "DELETE",
         headers: { 

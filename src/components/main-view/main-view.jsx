@@ -79,7 +79,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/signup"
             element={
-              user ? (
+              !user ? (
                 <Navigate to="/" />
               ) : (
                 <Col md={5}>
@@ -91,7 +91,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/login"
             element={
-              user ? (
+              !user ? (
                 <Navigate to="/" />
               ) : (
                 <Col md={5}>
