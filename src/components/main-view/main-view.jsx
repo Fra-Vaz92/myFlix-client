@@ -30,15 +30,16 @@ export const MainView = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      const moviesFromApi = data.map((movie) => {
-       return{ _id: movie._id,
-        Title: movie.Title,
-        Description: movie.Description,
-        Genre: movie.Genre,
-        Actors:movie.actor,
-        Director: movie.Director,
-        ImagePath: movie.ImagePath,
-        Featured: movie.Featured,
+      const moviesFromApi = data.map((movies) => {
+       return{ _id: movies._id,
+        Title: movies.Title,
+        Description: movies.Description,
+        Genre: movies.Genre,
+        Actors:movies.actor,
+        Director: movies.Director,
+        ImagePath: movies.ImagePath,
+        BirthDate:movies.BirthDate,
+        Featured: movies.Featured,
       };
     });
     setMovies(moviesFromApi);
@@ -123,7 +124,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
               path="/movies/:movieId"
               element={
-                !user ? (
+                user ? (
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ?(
                 <p>Loading movies...</p>
@@ -142,7 +143,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/"
             element={
-              !user ? (
+              user ? (
                 <>
                   {movies.length === 0 ? (
                     <p>It's empty</p>
