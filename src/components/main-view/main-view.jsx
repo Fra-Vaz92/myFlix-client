@@ -79,7 +79,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/signup"
             element={
-              !user ? (
+              user ? (
                 <Navigate to="/" />
               ) : (
                 <Col md={5}>
@@ -91,7 +91,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/login"
             element={
-              !user ? (
+              user ? (
                 <Navigate to="/" />
               ) : (
                 <Col md={5}>
@@ -105,7 +105,7 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/users/:Username"
             element={
-              user ? (
+              !user ? (
                 <Col md={8}>
                   <ProfileView
                     user={user}
@@ -121,9 +121,11 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
             }
           />
           <Route
-            path="/movies/:movieId"
-            element={
-              movies.length === 0 ? (
+              path="/movies/:movieId"
+              element={
+                !user ? (
+                  <Navigate to="/login" replace />
+                ) : movies.length === 0 ?(
                 <p>Loading movies...</p>
               ) : (
                 <Col md={8}>
@@ -140,10 +142,10 @@ const handleSearch = (e) => setSearch(e.target.value); // Update search term
           <Route
             path="/"
             element={
-              user ? (
+              !user ? (
                 <>
                   {movies.length === 0 ? (
-                    <p>Loading...</p>
+                    <p>It's empty</p>
                   ) : (
                     <>
                       <Row className="justify-content-md-center">

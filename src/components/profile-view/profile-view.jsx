@@ -7,9 +7,6 @@ import FavoriteMovies from "./favorite-movie";
 import ProfileUpdate from "./profile-update";
 import { Card, Container, Row, Col } from "react-bootstrap";
 
-import axios from "axios";
-
-
 export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle, setFavoriteMovies}) => {
 
   const { userId } = useParams();
