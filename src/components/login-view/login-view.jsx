@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Button, Form } from 'react-bootstrap';
 
 export const LoginView = ({ onLoggedIn }) => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [Username, setUsername] = useState("");
+    const [Password, setPassword] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
     const data = {
-      username: username,
-      Password: password
+      Username: Username,
+      Password: Password
     };
    
     fetch("https://movie-app-47zy.onrender.com/login", {
@@ -42,7 +42,7 @@ export const LoginView = ({ onLoggedIn }) => {
           <Form.Label>Username:</Form.Label>
           <Form.Control
             type="text"
-            value={username}
+            value={Username}
             onChange={(e) => setUsername(e.target.value)}
             required
             minLength="3" 
@@ -53,7 +53,7 @@ export const LoginView = ({ onLoggedIn }) => {
           <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
-            value={password}
+            value={Password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
