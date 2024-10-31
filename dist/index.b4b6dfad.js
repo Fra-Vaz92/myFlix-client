@@ -43004,17 +43004,17 @@ var _buttonDefault = parcelHelpers.interopDefault(_button);
 var _s = $RefreshSig$();
 const SignupView = ()=>{
     _s();
-    const [username, setUsername] = (0, _react.useState)("");
-    const [password, setPassword] = (0, _react.useState)("");
-    const [email, setEmail] = (0, _react.useState)("");
-    const [birthday, setBirthday] = (0, _react.useState)("");
+    const [Username, setUsername] = (0, _react.useState)("");
+    const [Password, setPassword] = (0, _react.useState)("");
+    const [Email, setEmail] = (0, _react.useState)("");
+    const [Birthday, setBirthday] = (0, _react.useState)("");
     const handleSubmit = (event)=>{
         event.preventDefault();
         const data = {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
+            Username: Username,
+            Password: Password,
+            Email: Email,
+            Birthday: Birthday
         };
         fetch("https://movie-app-47zy.onrender.com/users/register", {
             method: "POST",
@@ -43044,7 +43044,7 @@ const SignupView = ()=>{
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
                         type: "text",
-                        value: username,
+                        value: Username,
                         onChange: (e)=>setUsername(e.target.value),
                         required: true,
                         minLength: "3"
@@ -43071,7 +43071,7 @@ const SignupView = ()=>{
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
                         type: "password",
-                        value: password,
+                        value: Password,
                         onChange: (e)=>setPassword(e.target.value),
                         required: true
                     }, void 0, false, {
@@ -43097,7 +43097,7 @@ const SignupView = ()=>{
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
                         type: "email",
-                        value: email,
+                        value: Email,
                         onChange: (e)=>setEmail(e.target.value),
                         required: true
                     }, void 0, false, {
@@ -43123,7 +43123,7 @@ const SignupView = ()=>{
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _formDefault.default).Control, {
                         type: "date",
-                        value: birthday,
+                        value: Birthday,
                         onChange: (e)=>setBirthday(e.target.value),
                         required: true
                     }, void 0, false, {
@@ -43154,7 +43154,7 @@ const SignupView = ()=>{
         columnNumber: 9
     }, undefined);
 };
-_s(SignupView, "jsOQN3GC2XlBG9ITlzCdpyJOnso=");
+_s(SignupView, "3Ly2uGwm2IaM8/h5bXhOpVGqO50=");
 _c = SignupView;
 var _c;
 $RefreshReg$(_c, "SignupView");

@@ -4,19 +4,19 @@ import Button from "react-bootstrap/Button";
 
 
 export const SignupView = () => {
-    const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+    const [Username, setUsername] = useState("");
+  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Birthday, setBirthday] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
     const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
+      Username: Username,
+      Password: Password,
+      Email: Email,
+      Birthday: Birthday
     };
 
     fetch("https://movie-app-47zy.onrender.com/users/register", {
@@ -41,7 +41,7 @@ export const SignupView = () => {
       <Form.Label>Username:</Form.Label>
       <Form.Control
           type="text"
-          value={username}
+          value={Username}
           onChange={(e) => setUsername(e.target.value)}
           required
           minLength="3"
@@ -52,7 +52,7 @@ export const SignupView = () => {
       <Form.Label>Password:</Form.Label>
       <Form.Control
           type="password"
-          value={password}
+          value={Password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
@@ -62,7 +62,7 @@ export const SignupView = () => {
       <Form.Label>Email:</Form.Label>
       <Form.Control
           type="email"
-          value={email}
+          value={Email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
@@ -73,7 +73,7 @@ export const SignupView = () => {
       <Form.Label>Birthday:</Form.Label>
       <Form.Control
           type="date"
-          value={birthday}
+          value={Birthday}
           onChange={(e) => setBirthday(e.target.value)}
           required
         />
