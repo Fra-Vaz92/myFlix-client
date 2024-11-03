@@ -1,30 +1,40 @@
-//parentcomponent
+// src/profile-view/profile-view.jsx
+
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import UserInfo from "./user-info";
 import DeleteAccountButton from "./delete-account-button";
 import FavoriteMovies from "./favorite-movie";
 import ProfileUpdate from "./profile-update";
 import { Card, Container, Row, Col } from "react-bootstrap";
 
-export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle, setFavoriteMovies}) => {
-
+export const ProfileView = ({ 
+  users = [], 
+  favoriteMovies = [], 
+  handleFavoriteToggle, 
+  setFavoriteMovies = () => {} //Default to an empty function if not provided
+}) => {
   const { userId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(null);
   const storedToken = localStorage.getItem("token");
-  const [token, setToken] = useState(storedToken);
+  const [token] = useState(storedToken);
+  const storedUser = JSON.parse(localStorage.getItem("user"));
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState([]);
 
-  const user = users.find((u) => u.userId === userId);
 
+  const user = users.find((u) => u.userId === userId) ||
+  (storedUser && storedUser.userId === userId ? storedUser : null);
+
+  // Fetch user favorites if user exists
   useEffect(() => {
     if (user) {
       setFavoriteMovies(user.favoriteMovies);
     }
   }, [user]);
 
+  // Fetch movies only if needed (you could pass it from the parent component instead)
   useEffect(() => {
     if (!token) return;
 
@@ -37,30 +47,43 @@ export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle,
         }
         return response.json();
       })
-      .then((data) => {
-        const moviesFromApi = data.map((movie) => ({
-            _id: movie._id,
-            Title: movie.Title,
-            Description: movie.Description,
-            Genre: movie.Genre,
-            Actors:movie.actor,
-            Director: movie.Director,
-            ImagePath: movie.ImagePath,
-            Featured: movie.Featured,
+      .then((moviesData) => {
+        console.log(moviesData);
+        if (!Array.isArray(moviesData)) {
+          throw new Error("Invalid data format received");
+        }
+
+        // Process and normalize the movie data
+        const processedMovies = moviesData.map(movie => ({
+          _id: movie._id.$oid || movie._id,
+          Title: movie.Title,
+          Description: movie.Description,
+          Genre: {
+            Name: movie.Genre?.Name || "Unknown Genre",
+            Description: movie.Genre?.Description || ""
+          },
+          Director: {
+            Name: movie.Director?.Name || "Unknown Director",
+            Bio: movie.Director?.Bio || "",
+            BirthDate: movie.Director?.BirthDate || ""
+          },
+          ImagePath: movie.ImagePath || "",
+          Featured: movie.Featured || false,
+          Actors: movie.Actors || [],
         }));
-        setMovies(moviesFromApi);
+
+        setMovies(processedMovies);
       })
       .catch((error) => {
         console.error("Error fetching movies:", error);
-        setError(error.message);
+        setError("Failed to load movies. Please try again later.");
       });
   }, [token]);
 
-  const favoriteMovieList = movies.filter(
-    (m) => favoriteMovies.includes(String(m.id)) // Convert to string
+  // Ensure movie IDs match the favorites list
+  const favoriteMovieList = movies.filter((m) => 
+    favoriteMovies.includes(String(m._id))
   );
-
-  console.log(favoriteMovieList);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -93,16 +116,15 @@ export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle,
       }
 
       Object.assign(user, editedUser);
-
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating user:", error);
     }
   };
 
+
+
   const onLoggedOut = () => {
-    // setUser(null);
-    // setToken(null);
     localStorage.clear();
     window.location.reload();
   };
@@ -112,45 +134,40 @@ export const ProfileView = ({ users = [],  favoriteMovies, handleFavoriteToggle,
   }
 
   return (
-    <>
-      <Container>
-        <Row>
-          
-          <Col xs={12} sm={4}>
+    <Container>
+      <Row>
+        <Col xs={12} sm={4}>
           <Card>
             <Card.Body>
-            <UserInfo name={user.name} email={user.email} />
+              <UserInfo User={user.Username} Email={user.Email} />
             </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={12} sm={8}>
-            <ProfileUpdate
-              user={user}
-              handleChange={handleChange}
-              handleSaveClick={handleSaveClick}
-              handleEditClick={handleEditClick}
-              isEditing={isEditing}
-              editedUser={editedUser}
-            />
-             
-            <hr/>
-            <h3>Delete Account</h3>
-            <DeleteAccountButton
-          username={user.username}
-          token={token}
-          onLoggedOut={onLoggedOut}
-        />
-          </Col>
-        </Row>
-        
-        <hr />
-        <FavoriteMovies
-          user={user}
-          favoriteMovies={favoriteMovies}
-          handleFavoriteToggle={handleFavoriteToggle}
-          favoriteMovieList={favoriteMovieList}
-        />
-      </Container>
-    </>
+          </Card>
+        </Col>
+        <Col xs={12} sm={8}>
+          <ProfileUpdate
+            user={user}
+            handleChange={handleChange}
+            handleSaveClick={handleSaveClick}
+            handleEditClick={handleEditClick}
+            isEditing={isEditing}
+            editedUser={editedUser}
+          />
+          <hr />
+          <h3>Delete Account</h3>
+          <DeleteAccountButton
+            username={user.username}
+            token={token}
+            onLoggedOut={onLoggedOut}
+          />
+        </Col>
+      </Row>
+      <hr />
+      <FavoriteMovies
+        user={user}
+        favoriteMovies={favoriteMovies}
+        handleFavoriteToggle={handleFavoriteToggle}
+        favoriteMovieList={favoriteMovieList}
+      />
+    </Container>
   );
 };

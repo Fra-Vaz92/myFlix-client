@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+import { useState } from "react";
 import {Form, Button} from "react-bootstrap";
 
 
 export const ProfileUpdate = ({user, updatedUser}) => {
     const token = localStorage.getItem("token");
     
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [birthday, setBirthday] = useState("");
+    const [Username, setUsername] = useState(user.Username || "");
+    const [Password, setPassword] = useState("");
+    const [Email, setEmail] = useState(user.Email || "");
+    const [Birthday, setBirthday] = useState(user.Birthday || "");
     
     const handleSubmit = (event) => {
         event.preventDefault();
         
         const data = {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
+            Username: Username,
+            Password: Password,
+            Email: Email,
+            Birthday: Birthday
         }
     
             fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}`, 
@@ -59,10 +59,11 @@ export const ProfileUpdate = ({user, updatedUser}) => {
               <Form.Label>Username:</Form.Label>
               <Form.Control
                   type="text"
-                  value={username}
+                  value={Username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   minLength="5"
+                  placeholder="Enter Username"
               />
             </Form.Group>  
             
@@ -70,9 +71,10 @@ export const ProfileUpdate = ({user, updatedUser}) => {
               <Form.Label>Password:</Form.Label>
               <Form.Control
                   type="password"
-                  value={password}
+                  value={Password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  placeholder="Enter Password"
               />
             </Form.Group>
             
@@ -80,9 +82,10 @@ export const ProfileUpdate = ({user, updatedUser}) => {
               <Form.Label>Email:</Form.Label>
               <Form.Control
                   type="email"
-                  value={email}
+                  value={Email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  placeholder="Enter Email-Id"
               />
             </Form.Group>
           
@@ -90,7 +93,7 @@ export const ProfileUpdate = ({user, updatedUser}) => {
               <Form.Label>Birthday:</Form.Label>
               <Form.Control
                   type="date"
-                  value={birthday}
+                  value={Birthday}
                   onChange={(e) => setBirthday(e.target.value)}
                   required
               />
@@ -104,9 +107,4 @@ export const ProfileUpdate = ({user, updatedUser}) => {
         </Form>
     )
 };  
-
-ProfileUpdate.propTypes = {
-    user: PropTypes.object.isRequired,
-    updatedUser: PropTypes.func.isRequired 
-};
 export default ProfileUpdate;

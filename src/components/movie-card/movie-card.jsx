@@ -4,29 +4,24 @@ import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./movie-card.scss";
 
-
-export const MovieCard = ({movie, isFavorite, onFavoriteToggle, username }) => {
-
-  const [isFav, setIsFav] = useState(isFavorite);
+export const MovieCard = ({ movie, isFavorite, onFavoriteToggle }) => {
+  const [isFav, setIsFav] = useState(isFavorite?? false);
 
   const handleFavoriteClick = () => {
-    setIsFav(prev => !prev);
+    setIsFav((prev) => !prev);
     onFavoriteToggle(movie._id, !isFav);
   };
 
   return (
-      <Card className="h-100">
-        <Card.Img variant="top" src={movie.image} />
+    <Card className="h-100">
+      <Card.Img variant="top" src={movie.ImagePath} />
       <Card.Body>
         <Card.Title>{movie.Title}</Card.Title>
         <Card.Text>{movie.Description}</Card.Text>
         <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
           <Button variant="link">Open</Button>
         </Link>
-        <Button 
-          variant={isFav ? "danger" : "secondary"} 
-          onClick={handleFavoriteClick}
-        >
+        <Button variant={isFav ? "danger" : "secondary"} onClick={handleFavoriteClick}>
           {isFav ? "Unfavorite" : "Favorite"}
         </Button>
       </Card.Body>
@@ -40,19 +35,17 @@ MovieCard.propTypes = {
     Title: PropTypes.string.isRequired,
     Description: PropTypes.string.isRequired,
     Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired
+      Name: PropTypes.string.isRequired,
     }).isRequired,
     Director: PropTypes.shape({
       Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string,
-      Birth: PropTypes.string,
-      Death: PropTypes.string
     }).isRequired,
     ImagePath: PropTypes.string.isRequired,
-    Featured: PropTypes.bool.isRequired
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired,
   isFavorite: PropTypes.bool.isRequired,
   onFavoriteToggle: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+};
+// Set a default value for isFavorite
+MovieCard.defaultProps = {
+  isFavorite: false,
 };

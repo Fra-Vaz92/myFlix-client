@@ -37,19 +37,6 @@
   margin-top: 50px;
 }
 
-.back-button {
-  color: #f5f5f5;
-  background-color: #722e2e;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 12px;
-}
-
-img {
-  width: 100%;
-  padding: auto;
-}
-
 .navbar {
   color: #0080ff !important;
   border-radius: 6px !important;
@@ -114,6 +101,19 @@ img {
 
 .card-group > .card {
   margin-top: 20px;
+}
+
+.back-button {
+  color: #f5f5f5;
+  background-color: #722e2e;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+
+img {
+  width: 100%;
+  padding: auto;
 }
 
 .my-flix {
