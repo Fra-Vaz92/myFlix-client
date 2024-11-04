@@ -9,7 +9,7 @@ import './profile-view.scss';
 function FavoriteMovies({ favoriteMovieList, onFavoriteChange }) {
   const removeFav = (id) => {
     const token = localStorage.getItem("token");
-    const url = `https://movie-app-47zy.onrender.com/users/${localStorage.getItem("user")}/favorites/${id}`;
+    const url = `https://movie-app-47zy.onrender.com/users/${localStorage.getItem("user")}/movies/${id}`;
 
     fetch(url, {
       method: "DELETE",

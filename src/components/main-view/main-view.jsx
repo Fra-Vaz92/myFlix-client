@@ -12,10 +12,10 @@ import "./main-view.scss";
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
-
   const [user, setUser] = useState(storedUser || null);
   const [token, setToken] = useState(storedToken || null);
   const [movies, setMovies] = useState([]);
+  const [favoriteMovies, setFavoriteMovies] = useState(storedUser?.favoriteMovies || []); // Track favorite movies
   const [search, setSearch] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [loading, setLoading] = useState(false);
@@ -141,7 +141,7 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : (
                   <Col md={6}>
-                    <ProfileView user={user} token={token} onLoggedOut={onLoggedOut} />
+                    <ProfileView user={user} token={token} onLoggedOut={onLoggedOut}/>
                   </Col>
                 )
               }
@@ -179,7 +179,7 @@ export const MainView = () => {
                   <Col>It's empty.</Col>
                 ) : (
                   <Col md={8}>
-                    <MovieView movies={movies} user={user} token={token} setUser={setUser}/>
+                    <MovieView movies={movies} user={user} token={token} setUser={setUser} />
                   </Col>
                 )
               }

@@ -12,7 +12,7 @@ export const ProfileView = ({
   users = [], 
   favoriteMovies = [], 
   handleFavoriteToggle, 
-  setFavoriteMovies = () => {} //Default to an empty function if not provided
+  setFavoriteMovies = () => {}
 }) => {
   const { userId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
@@ -23,37 +23,23 @@ export const ProfileView = ({
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState([]);
 
-
   const user = users.find((u) => u.userId === userId) ||
-  (storedUser && storedUser.userId === userId ? storedUser : null);
+    (storedUser && storedUser.userId === userId ? storedUser : null);
 
-  // Fetch user favorites if user exists
   useEffect(() => {
     if (user) {
       setFavoriteMovies(user.favoriteMovies);
     }
   }, [user]);
 
-  // Fetch movies only if needed (you could pass it from the parent component instead)
   useEffect(() => {
     if (!token) return;
 
     fetch("https://movie-app-47zy.onrender.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
+      .then((response) => response.ok ? response.json() : Promise.reject(response))
       .then((moviesData) => {
-        console.log(moviesData);
-        if (!Array.isArray(moviesData)) {
-          throw new Error("Invalid data format received");
-        }
-
-        // Process and normalize the movie data
         const processedMovies = moviesData.map(movie => ({
           _id: movie._id.$oid || movie._id,
           Title: movie.Title,
@@ -71,7 +57,6 @@ export const ProfileView = ({
           Featured: movie.Featured || false,
           Actors: movie.Actors || [],
         }));
-
         setMovies(processedMovies);
       })
       .catch((error) => {
@@ -80,10 +65,37 @@ export const ProfileView = ({
       });
   }, [token]);
 
-  // Ensure movie IDs match the favorites list
   const favoriteMovieList = movies.filter((m) => 
     favoriteMovies.includes(String(m._id))
   );
+
+  const handleFavoriteToggleClick = async (movieId) => {
+    try {
+      const method = favoriteMovies.includes(movieId) ? "DELETE" : "POST";
+      const response = await fetch(
+        `https://movie-app-47zy.onrender.com/users/${user.Username}/movies/${movieId}`,
+        {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to update favorite: ${response.statusText}`);
+      }
+
+      setFavoriteMovies((prevFavorites) =>
+        method === "POST"
+          ? [...prevFavorites, movieId]
+          : prevFavorites.filter((id) => id !== movieId)
+      );
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    }
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -100,7 +112,7 @@ export const ProfileView = ({
   const handleSaveClick = async () => {
     try {
       const response = await fetch(
-        `https://movie-app-47zy.onrender.com/users/${user.username}`,
+        `https://movie-app-47zy.onrender.com/users/${user.Username}`,
         {
           method: "PUT",
           headers: {
@@ -121,8 +133,6 @@ export const ProfileView = ({
       console.error("Error updating user:", error);
     }
   };
-
-
 
   const onLoggedOut = () => {
     localStorage.clear();
@@ -155,7 +165,7 @@ export const ProfileView = ({
           <hr />
           <h3>Delete Account</h3>
           <DeleteAccountButton
-            username={user.username}
+            username={user.Username}
             token={token}
             onLoggedOut={onLoggedOut}
           />
@@ -165,7 +175,7 @@ export const ProfileView = ({
       <FavoriteMovies
         user={user}
         favoriteMovies={favoriteMovies}
-        handleFavoriteToggle={handleFavoriteToggle}
+        handleFavoriteToggle={handleFavoriteToggleClick}
         favoriteMovieList={favoriteMovieList}
       />
     </Container>
