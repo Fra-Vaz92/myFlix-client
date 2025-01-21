@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {Link } from "react-router-dom";
-import {useParams} from "react-router";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router";
 import { Button, Card } from "react-bootstrap";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies=[], user, token, setUser}) => {
+export const MovieView = ({ movies = [], user, token, setUser }) => {
   const { movieId } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -25,39 +25,44 @@ export const MovieView = ({ movies=[], user, token, setUser}) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ FavoriteMovies: movieId })
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to add to favorites");
+        }
+        return response.json();
+      })
       .then((data) => {
         setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
         setIsFavorite(true);
       })
-      .catch((e) => console.log("Error adding to favorites:", e));
+      .catch((e) => console.error("Error adding to favorites:", e));
   };
 
   const removeFromFavorite = () => {
-    fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/movies/${movieId}`, {
+    fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/favorites/${movieId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to remove from favorites");
+        }
+        return response.json();
+      })
       .then((data) => {
         setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
         setIsFavorite(false);
       })
-      .catch((e) => console.log("Error removing from favorites:", e));
+      .catch((e) => console.error("Error removing from favorites:", e));
   };
-
-  if (!movie) {
-    return <p>Movie not found.</p>;
-  }
 
   return (
     <Card className="h-100 w-100">
@@ -86,5 +91,3 @@ export const MovieView = ({ movies=[], user, token, setUser}) => {
     </Card>
   );
 };
-
-
