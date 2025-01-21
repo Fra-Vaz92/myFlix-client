@@ -4,32 +4,12 @@ import { Col, Row, Figure, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import './profile-view.scss';
 
-
-
-function FavoriteMovies({ favoriteMovieList, onFavoriteChange }) {
-  const removeFav = (id) => {
-    const token = localStorage.getItem("token");
-    const url = `https://movie-app-47zy.onrender.com/users/${localStorage.getItem("user")}/movies/${id}`;
-
-    fetch(url, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        if (response.ok) {
-          if (onFavoriteChange) onFavoriteChange();
-        } else {
-          console.error("Failed to remove favorite:", response.statusText);
-        }
-      })
-      .catch((e) => console.log("Error removing from favorites:", e));
-  };
-
+function FavoriteMovies({ favoriteMovieList, handleFavoriteToggle }) {
   return (
     <Card>
       <Card.Body>
         <Row>
-          <Col xs={2}>
+          <Col xs={12}>
             <h4>Favorite Movies</h4>
           </Col>
         </Row>
@@ -43,13 +23,18 @@ function FavoriteMovies({ favoriteMovieList, onFavoriteChange }) {
                     <Figure.Caption>{Title}</Figure.Caption>
                   </Link>
                 </Figure>
-                <Button variant="secondary" onClick={() => removeFav(_id)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => handleFavoriteToggle(_id)}
+                >
                   Remove from list
                 </Button>
               </Col>
             ))
           ) : (
-            <p>No favorite movies added yet.</p>
+            <Col xs={12}>
+              <p>No favorite movies added yet.</p>
+            </Col>
           )}
         </Row>
       </Card.Body>
@@ -59,7 +44,7 @@ function FavoriteMovies({ favoriteMovieList, onFavoriteChange }) {
 
 FavoriteMovies.propTypes = {
   favoriteMovieList: PropTypes.array.isRequired,
-  onFavoriteChange: PropTypes.func,
+  handleFavoriteToggle: PropTypes.func.isRequired,
 };
 
 export default FavoriteMovies;

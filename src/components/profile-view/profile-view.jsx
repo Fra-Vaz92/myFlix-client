@@ -11,8 +11,8 @@ import { Card, Container, Row, Col } from "react-bootstrap";
 export const ProfileView = ({ 
   users = [], 
   favoriteMovies = [], 
-  handleFavoriteToggle, 
-  setFavoriteMovies = () => {}
+  handleFavoriteToggle = () => {}, 
+  setFavoriteMovies = () => {} 
 }) => {
   const { userId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
@@ -28,9 +28,9 @@ export const ProfileView = ({
 
   useEffect(() => {
     if (user) {
-      setFavoriteMovies(user.favoriteMovies);
+      setFavoriteMovies(user.favoriteMovies || []);
     }
-  }, [user]);
+  }, [user, setFavoriteMovies]);
 
   useEffect(() => {
     if (!token) return;
@@ -87,6 +87,7 @@ export const ProfileView = ({
         throw new Error(`Failed to update favorite: ${response.statusText}`);
       }
 
+      // Update the local favoriteMovies state
       setFavoriteMovies((prevFavorites) =>
         method === "POST"
           ? [...prevFavorites, movieId]
