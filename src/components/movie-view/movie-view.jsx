@@ -39,7 +39,7 @@ export const MovieView = ({ movies=[], user, token, setUser}) => {
   };
 
   const removeFromFavorite = () => {
-    fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/favorites/${movieId}`, {
+    fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/movies/${movieId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
