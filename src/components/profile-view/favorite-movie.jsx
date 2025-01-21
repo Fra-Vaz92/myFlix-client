@@ -1,49 +1,77 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Col, Row, Figure, Button, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import './profile-view.scss';
+import { Row, Col, Figure, Button } from "react-bootstrap";
 
-function FavoriteMovies({ favoriteMovieList, handleFavoriteToggle }) {
+const FavoriteMovies = ({
+  movies,
+  favoriteMovies,
+  favoriteMovieDetails,
+  handleFavoriteToggle,
+}) => {
   return (
-    <Card>
-      <Card.Body>
-        <Row>
-          <Col xs={12}>
-            <h4>Favorite Movies</h4>
-          </Col>
-        </Row>
-        <Row>
-          {favoriteMovieList.length > 0 ? (
-            favoriteMovieList.map(({ ImagePath, Title, _id }) => (
-              <Col xs={12} md={6} lg={3} key={_id} className="fav-movie">
-                <Figure>
-                  <Link to={`/movies/${_id}`}>
-                    <Figure.Image src={ImagePath} alt={Title} />
-                    <Figure.Caption>{Title}</Figure.Caption>
-                  </Link>
-                </Figure>
-                <Button
-                  variant="secondary"
-                  onClick={() => handleFavoriteToggle(_id)}
-                >
-                  Remove from list
-                </Button>
-              </Col>
-            ))
-          ) : (
-            <Col xs={12}>
-              <p>No favorite movies added yet.</p>
+    <div>
+      <h4>Your Favorite Movies</h4>
+      <Row>
+        {favoriteMovieDetails.length > 0 ? (
+          favoriteMovieDetails.map((movie) => (
+            <Col xs={12} md={6} lg={4} key={movie._id} className="mb-3">
+              <Figure>
+                <Figure.Image
+                  src={movie.ImagePath}
+                  alt={movie.Title}
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <Figure.Caption>{movie.Title}</Figure.Caption>
+              </Figure>
+              <Button
+                variant="danger"
+                onClick={() => handleFavoriteToggle(movie._id)}
+              >
+                Remove from Favorites
+              </Button>
             </Col>
-          )}
-        </Row>
-      </Card.Body>
-    </Card>
+          ))
+        ) : (
+          <Col>
+            <p>You have no favorite movies yet.</p>
+          </Col>
+        )}
+      </Row>
+
+      <hr />
+      <h4>Add Movies to Favorites</h4>
+      <Row>
+        {movies.map((movie) => (
+          <Col xs={12} md={6} lg={4} key={movie._id} className="mb-3">
+            <Figure>
+              <Figure.Image
+                src={movie.ImagePath}
+                alt={movie.Title}
+                style={{ width: "100%", height: "auto" }}
+              />
+              <Figure.Caption>{movie.Title}</Figure.Caption>
+            </Figure>
+            <Button
+              variant={
+                favoriteMovies.includes(movie._id) ? "success" : "primary"
+              }
+              onClick={() => handleFavoriteToggle(movie._id)}
+            >
+              {favoriteMovies.includes(movie._id)
+                ? "Remove from Favorites"
+                : "Add to Favorites"}
+            </Button>
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
-}
+};
 
 FavoriteMovies.propTypes = {
-  favoriteMovieList: PropTypes.array.isRequired,
+  movies: PropTypes.array.isRequired,
+  favoriteMovies: PropTypes.array.isRequired,
+  favoriteMovieDetails: PropTypes.array.isRequired,
   handleFavoriteToggle: PropTypes.func.isRequired,
 };
 
