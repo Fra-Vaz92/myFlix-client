@@ -103,8 +103,13 @@ export const MainView = () => {
   });
 
   const handleFavoriteToggle = (movieId) => {
-    const isFavorite = user.FavoriteMovies?.includes(movieId);
-    const endpoint = `https://movie-app-47zy.onrender.com/users/${user.Username}/movies/${movieId}`;
+    if (!user) {
+      alert("You need to be logged in to favorite a movie.");
+      return;
+    }
+
+    const isFavorite = user.favoriteMovies?.includes(movieId);
+    const endpoint = `https://movie-app-47zy.onrender.com/users/${user.Username}/favorites/${movieId}`;
     const method = isFavorite ? "DELETE" : "POST";
 
     fetch(endpoint, {
@@ -116,19 +121,16 @@ export const MainView = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error(
-            `Failed to ${isFavorite ? "remove" : "add"} movie to favorites.`
-          );
+          throw new Error(`Failed to ${isFavorite ? "remove" : "add"} movie.`);
         }
         return response.json();
       })
       .then(() => {
         const updatedFavorites = isFavorite
-          ? user.FavoriteMovies.filter((id) => id !== movieId)
-          : [...(user.FavoriteMovies || []), movieId];
-        const updatedUser = { ...user, FavoriteMovies: updatedFavorites };
+          ? user.favoriteMovies.filter((id) => id !== movieId)
+          : [...(user.favoriteMovies || []), movieId];
 
-        // Update the local state and localStorage
+        const updatedUser = { ...user, favoriteMovies: updatedFavorites };
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
       })
@@ -155,8 +157,8 @@ export const MainView = () => {
       <Col key={movie._id} xs={8} sm={6} md={4} lg={3} className="mb-4">
         <MovieCard
           movie={movie}
-          isFavorite={user.FavoriteMovies?.includes(movie._id)}
-          onFavoriteToggle={handleFavoriteToggle}
+          onFavoriteToggle={() => handleFavoriteToggle(movie._id)}
+          isFavorite={user?.favoriteMovies?.includes(movie._id)}
         />
       </Col>
     ));
@@ -175,7 +177,7 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : (
                   <Col md={6}>
-                    <ProfileView user={user} token={token} onLoggedOut={onLoggedOut}/>
+                    <ProfileView user={user} token={token} onLoggedOut={onLoggedOut} />
                   </Col>
                 )
               }
@@ -245,9 +247,7 @@ export const MainView = () => {
                         </Form.Select>
                       </Col>
                     </Row>
-                    <Row>
-                      {renderMovieGrid()}
-                    </Row>
+                    <Row>{renderMovieGrid()}</Row>
                   </>
                 )
               }
