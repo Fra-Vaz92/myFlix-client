@@ -47,10 +47,9 @@ export const MovieView = ({ movies = [], user, token, setUser }) => {
 
     if (!isFavorite) {
       // If the movie is already not in the favorite list, don't make the API request
-      setIsFavorite(false);  // Just reset the state
       return;
     }
-    
+
     fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/favorites/${movieId}`, {
       method: "DELETE",
       headers: {
