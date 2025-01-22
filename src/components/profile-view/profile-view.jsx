@@ -87,6 +87,7 @@ export const ProfileView = () => {
           <Card>
             <Card.Body>
               <Card.Title>{user.Username}'s Profile</Card.Title>
+              <Card.Text>Username: {user.Username}</Card.Text>
               <Card.Text>Email: {user.Email}</Card.Text>
               <Card.Text>Birthday: {user.Birthday}</Card.Text>
             </Card.Body>
