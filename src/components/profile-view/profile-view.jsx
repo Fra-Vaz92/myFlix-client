@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import FavoriteMovies from "./favorite-movie";
 import { Card, Container, Row, Col } from "react-bootstrap";
+import { ProfileUpdate } from "./profile-update"; 
+import { DeleteAccountButton } from "./delete-account-button"; 
 
 export const ProfileView = () => {
   const { Username } = useParams();
@@ -10,6 +12,7 @@ export const ProfileView = () => {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [error, setError] = useState(null);
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
 
   // Fetch user details
   useEffect(() => {
@@ -90,7 +93,30 @@ export const ProfileView = () => {
           </Card>
         </Col>
       </Row>
+
       <hr />
+      <Row className="mb-4">
+        <Col md={6}>
+          <Button
+            variant="primary"
+            onClick={() => setIsUpdatingProfile(!isUpdatingProfile)}
+          >
+            {isUpdatingProfile ? "Cancel Update" : "Update Profile"}
+          </Button>
+        </Col>
+        <Col md={6}>
+          <DeleteAccountButton user={user} token={token} setUser={setUser} />
+        </Col>
+      </Row>
+
+      {isUpdatingProfile && (
+        <Row className="mb-4">
+          <Col>
+            <ProfileUpdate user={user} token={token} setUser={setUser} />
+          </Col>
+        </Row>
+      )}
+
       <FavoriteMovies
         movies={movies}
         favoriteMovies={favoriteMovies}
