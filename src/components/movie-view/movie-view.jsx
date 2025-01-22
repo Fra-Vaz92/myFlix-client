@@ -8,6 +8,7 @@ export const MovieView = ({ movies = [], user, token, setUser }) => {
   const { movieId } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
 
+
   const movie = movies.find((b) => b._id === movieId);
 
   if (!movie) {
@@ -43,6 +44,13 @@ export const MovieView = ({ movies = [], user, token, setUser }) => {
   };
 
   const removeFromFavorite = () => {
+
+    if (!isFavorite) {
+      // If the movie is already not in the favorite list, don't make the API request
+      setIsFavorite(false);  // Just reset the state
+      return;
+    }
+    
     fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}/favorites/${movieId}`, {
       method: "DELETE",
       headers: {
@@ -60,6 +68,7 @@ export const MovieView = ({ movies = [], user, token, setUser }) => {
         setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
         setIsFavorite(false);
+
       })
       .catch((e) => console.error("Error removing from favorites:", e));
   };
