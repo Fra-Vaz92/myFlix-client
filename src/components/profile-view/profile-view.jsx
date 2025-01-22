@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 import { Card, Container, Button, Row, Col, Form } from "react-bootstrap";
 
 export const ProfileView = ({ user, movies, onLogout, onUpdateUser }) => {
   const token = localStorage.getItem("token");
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({
-    Username: user.Username,
+    Username: user?.Username || "",
     Password: "",
-    Email: user.Email,
-    Birthday: user.Birthday,
+    Email: user?.Email || "",
+    Birthday: user?.Birthday || "",
   });
 
-  // Fetch favorite movies
+  // Ensure movies and user.FavoriteMovies are defined before filtering
   useEffect(() => {
-    if (user.FavoriteMovies && user.FavoriteMovies.length > 0) {
+    if (movies && user?.FavoriteMovies?.length > 0) {
       const favorites = movies.filter((movie) =>
         user.FavoriteMovies.includes(movie._id)
       );
       setFavoriteMovies(favorites);
+    } else {
+      setFavoriteMovies([]); // Set to empty if no favorites
     }
-  }, [user.FavoriteMovies, movies]);
+  }, [user?.FavoriteMovies, movies]);
 
   // Update user information
   const handleUpdateUser = () => {
