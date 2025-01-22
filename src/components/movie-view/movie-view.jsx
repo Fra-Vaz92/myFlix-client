@@ -46,7 +46,7 @@ export const MovieView = ({ movies = [], user, token, setUser }) => {
   const removeFromFavorite = () => {
 
     if (!isFavorite) {
-      // If the movie is already not in the favorite list, don't make the API request
+      setIsFavorite(false);// If the movie is already not in the favorite list, don't make the API request
       return;
     }
 
