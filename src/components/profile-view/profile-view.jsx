@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import FavoriteMovies from "./favorite-movie";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Button } from "react-bootstrap";
 
 
 export const ProfileView = () => {
