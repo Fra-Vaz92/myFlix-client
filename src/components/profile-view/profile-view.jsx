@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Card, Container, Button, Row, Col, Form } from "react-bootstrap";
+import FavoriteMovies from "./favorite-movie";
 
 export const ProfileView = ({ user, movies, onLogout, onUpdateUser }) => {
   const token = localStorage.getItem("token");
@@ -12,7 +13,7 @@ export const ProfileView = ({ user, movies, onLogout, onUpdateUser }) => {
     Birthday: user?.Birthday || "",
   });
 
-  // Ensure movies and user.FavoriteMovies are defined before filtering
+  // Load favorite movies when component mounts or user data changes
   useEffect(() => {
     if (movies && user?.FavoriteMovies?.length > 0) {
       const favorites = movies.filter((movie) =>
@@ -20,11 +21,43 @@ export const ProfileView = ({ user, movies, onLogout, onUpdateUser }) => {
       );
       setFavoriteMovies(favorites);
     } else {
-      setFavoriteMovies([]); // Set to empty if no favorites
+      setFavoriteMovies([]);
     }
   }, [user?.FavoriteMovies, movies]);
 
-  // Update user information
+  // Handle adding/removing movies to/from favorites
+  const handleFavoriteToggle = (movieId) => {
+    const isFavorite = user.FavoriteMovies.includes(movieId);
+    const endpoint = `https://movie-app-47zy.onrender.com/users/${user.Username}/movies/${movieId}`;
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(endpoint, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          const updatedFavorites = isFavorite
+            ? user.FavoriteMovies.filter((id) => id !== movieId)
+            : [...user.FavoriteMovies, movieId];
+          onUpdateUser({ ...user, FavoriteMovies: updatedFavorites });
+        } else {
+          throw new Error(
+            `Failed to ${
+              isFavorite ? "remove" : "add"
+            } movie from favorites.`
+          );
+        }
+      })
+      .catch((err) => {
+        console.error("Error updating favorites:", err);
+        alert("Could not update favorites. Please try again.");
+      });
+  };
+
   const handleUpdateUser = () => {
     fetch(`https://movie-app-47zy.onrender.com/users/${user.Username}`, {
       method: "PUT",
@@ -51,7 +84,6 @@ export const ProfileView = ({ user, movies, onLogout, onUpdateUser }) => {
       });
   };
 
-  // Delete user account
   const handleDeleteAccount = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete your account? This action cannot be undone."
@@ -157,19 +189,12 @@ export const ProfileView = ({ user, movies, onLogout, onUpdateUser }) => {
 
       <Row>
         <Col>
-          <h4>Favorite Movies</h4>
-          {favoriteMovies.length > 0 ? (
-            favoriteMovies.map((movie) => (
-              <Card key={movie._id} className="mb-3">
-                <Card.Body>
-                  <Card.Title>{movie.Title}</Card.Title>
-                  <Card.Text>{movie.Description}</Card.Text>
-                </Card.Body>
-              </Card>
-            ))
-          ) : (
-            <p>No favorite movies added yet.</p>
-          )}
+          <FavoriteMovies
+            movies={movies}
+            favoriteMovies={user.FavoriteMovies}
+            favoriteMovieDetails={favoriteMovies}
+            handleFavoriteToggle={handleFavoriteToggle}
+          />
         </Col>
       </Row>
     </Container>
@@ -187,6 +212,7 @@ ProfileView.propTypes = {
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       Title: PropTypes.string.isRequired,
+      ImagePath: PropTypes.string.isRequired,
       Description: PropTypes.string.isRequired,
     })
   ).isRequired,
