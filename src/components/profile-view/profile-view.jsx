@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import FavoriteMovies from "./favorite-movie";
 import { Card, Container, Row, Col } from "react-bootstrap";
-import { ProfileUpdate } from "./profile-update"; 
-import { DeleteAccountButton } from "./delete-account-button"; 
+import ProfileUpdate from "./profile-update"; 
+import DeleteAccountButton from "./delete-account-button";
 
 export const ProfileView = () => {
   const { Username } = useParams();
