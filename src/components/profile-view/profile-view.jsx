@@ -1,3 +1,10 @@
+// src/profile-view/profile-view.jsx
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import FavoriteMovies from "./favorite-movie";
+import { Card, Container, Row, Col } from "react-bootstrap";
+
+
 export const ProfileView = () => {
   const { Username } = useParams();
   const navigate = useNavigate();
