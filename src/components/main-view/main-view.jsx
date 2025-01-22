@@ -102,6 +102,42 @@ export const MainView = () => {
     return matchesSearch && matchesGenre;
   });
 
+  const handleFavoriteToggle = (movieId) => {
+    const isFavorite = user.FavoriteMovies?.includes(movieId);
+    const endpoint = `https://movie-app-47zy.onrender.com/users/${user.Username}/movies/${movieId}`;
+    const method = isFavorite ? "DELETE" : "POST";
+
+    fetch(endpoint, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Failed to ${isFavorite ? "remove" : "add"} movie to favorites.`
+          );
+        }
+        return response.json();
+      })
+      .then(() => {
+        const updatedFavorites = isFavorite
+          ? user.FavoriteMovies.filter((id) => id !== movieId)
+          : [...(user.FavoriteMovies || []), movieId];
+        const updatedUser = { ...user, FavoriteMovies: updatedFavorites };
+
+        // Update the local state and localStorage
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      })
+      .catch((err) => {
+        console.error("Error updating favorites:", err);
+        alert("Could not update favorites. Please try again.");
+      });
+  };
+
   const renderMovieGrid = () => {
     if (loading) {
       return <Col>Loading movies...</Col>;
@@ -117,12 +153,10 @@ export const MainView = () => {
 
     return filteredMovies.map((movie) => (
       <Col key={movie._id} xs={8} sm={6} md={4} lg={3} className="mb-4">
-        <MovieCard 
+        <MovieCard
           movie={movie}
-          onFavoriteToggle={(movieId) => {
-            // Handle favorite toggling here
-            console.log("Toggle favorite for movie:", movieId);
-          }}
+          isFavorite={user.FavoriteMovies?.includes(movie._id)}
+          onFavoriteToggle={handleFavoriteToggle}
         />
       </Col>
     ));
