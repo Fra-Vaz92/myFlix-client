@@ -29,6 +29,21 @@ export const ProfileView = () => {
       });
   }, [token, Username]);
 
+  // Fetch all movies
+  useEffect(() => {
+    if (!token) return;
+
+    fetch("https://movie-app-47zy.onrender.com/movies", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((data) => setMovies(data))
+      .catch((err) => {
+        console.error("Error fetching movies:", err);
+        setError("Failed to load movies.");
+      });
+  }, [token]);
+
   // Add or remove favorite movies
   const handleFavoriteToggle = (movieId) => {
     const isFavorite = favoriteMovies.includes(movieId);
